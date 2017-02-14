@@ -89,14 +89,24 @@
         },
         onSubmit: function(event) {
             event.preventDefault();
+            this.refs.name.focus();
             this.props.onSubmit(); // no arg needed
         },
         onNameFocus: function() {
             console.log('haha, denied!');
             this.refs.name.blur(); // haha!
         },
-        componentWillUpdate: function(nextProps, nextState) {
-            console.log('componentWillUpdate');
+        componentDidUpdate: function(prevProps) {
+            var value = this.props.value;
+            var prevValue = prevProps.value;
+            console.log('componentDidUpdate');
+            if (this.isMounted && value.errors && value.errors != prevValue.errors) {
+                if (value.errors.name) {
+                    this.refs.name.focus(); // "real" DOM action
+                } else if (value.errors.email) {
+                    this.refs.email.focus();
+                }
+            }
         },
         render: function() {
             var errors = this.props.value.errors || {};
@@ -104,26 +114,29 @@
                 React.createElement('form', {
                 className: 'ContactForm',
                 onSubmit: this.onSubmit,
-                noValidate: true // For development we want to validate ourselves in the handler
+                noValidate: true // For development we want to validate on our own in the handler
                 },
                     React.createElement('input', {
                         className: errors.name && 'ContactForm-error',
                         placeholder: 'Name (required)',
-                        ref: 'name',
+                        ref: 'name', // for "real" DOM access via refs object
                         //onFocus: this.onNameFocus,
                         type: 'text',
                         value: this.props.value.name,
-                        onChange: this.onNameChange
+                        onChange: this.onNameChange,
+                        autoFocus: true
                     }),
                     React.createElement('input', {
                         className: errors.email && 'ContactForm-error',
                         placeholder: 'Email',
+                        ref: 'email',
                         type: 'email',
                         value: this.props.value.email,
-                        onChange: this.onEmailChange
+                        onChange: this.onEmailChange,
                     }),
                     React.createElement('textarea', {
                         className: errors.description && 'ContactForm-error',
+                        ref: 'description',
                         placeholder: 'Description',
                         value: this.props.value.description,
                         onChange: this.onDescriptionChange
