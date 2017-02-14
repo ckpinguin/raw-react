@@ -100,7 +100,8 @@
             var value = this.props.value;
             var prevValue = prevProps.value;
             console.log('componentDidUpdate');
-            if (this.isMounted && value.errors && value.errors != prevValue.errors) {
+            // not using this.mounted anymore (antipattern)
+            if (value.errors && value.errors != prevValue.errors) {
                 if (value.errors.name) {
                     this.refs.name.focus(); // "real" DOM action
                 } else if (value.errors.email) {
