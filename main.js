@@ -14,6 +14,8 @@ var CONTACT_TEMPLATE = {
 
 // Set the app's initial state
 var state = {
+    transitioning: false,
+    location: null,
     contacts: [
         {
             key: 1,
@@ -29,21 +31,19 @@ var state = {
             name: 'Joe Jim'
         }
     ],
+    contactForms: {},
     newContact: Object.assign({}, CONTACT_TEMPLATE),
-    location: window.location.hash
 };
 
 // setting state also triggers rerendering (normally this is done by React's
 // own setState implementation)
 function setState(changes) {
     Object.assign(state, changes);
-    var application = React.createElement(Application, {
-        contacts: state.contacts,
-        location: state.location,
-        newContact: state.newContact
-    });
-    if (!state.transitioning)
+    if (!state.transitioning) {
+        // Simply using `state` for the props seems to be appropriate here
+        var application = React.createElement(Application, state);
         ReactDOM.render(application, document.getElementById('react-app'));
+    }
 }
 
 window.addEventListener('hashchange', navigated, false);

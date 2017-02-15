@@ -14,9 +14,9 @@ function startNavigating(newLocation) {
     setState({
         transitioning: true
     });
+    // this will fire a `hashchange` event which calls `navigated`, so setState
+    // should only be called, when all intermediate routes are done
     window.location.replace(
-        // this will fire an event which calls `navigated`, so setState
-        // should only be called, when all intermediate routes are done
         window.location.pathname + window.location.search + '#' + newLocation
     );
     setState({

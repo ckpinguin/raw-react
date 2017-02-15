@@ -8,15 +8,16 @@ var Application = React.createClass({
         switch (this.props.location[0]) {
             case 'contacts':
                 if (this.props.location[1]) {
+                    // props are just pass-through
                     return React.createElement(ContactView, Object.assign({}, this.props, {
                         id: this.props.location[1],
-                        handleContactChange: ()=>{},
-                        handleSaveContact: ()=>{}
+                        handleContactChange: updateContactForm, // use global handler
+                        handleSaveContact: submitContactForm // use global handler
                     }));
                 } else {
                     return React.createElement(ContactsView, Object.assign({}, this.props, {
                         handleContactChange: updateNewContact, // use global handler
-                        handleSaveContact: submitContactForm // use global handler
+                        handleSaveContact: submitNewContact // use global handler
                     }));
                 }
                 break;

@@ -22,6 +22,7 @@ var ContactForm = React.createClass({
         console.log('haha, denied!');
         this.refs.name.blur(); // haha!
     },
+    // Focusing components with errors
     componentDidUpdate: function(prevProps) {
         var value = this.props.value;
         var prevValue = prevProps.value;
@@ -55,6 +56,7 @@ var ContactForm = React.createClass({
             placeholder: 'Email',
             ref: 'email',
             type: 'email',
+            noValidate: true,
             value: this.props.value.email,
             onChange: this.onEmailChange
         }), React.createElement('textarea', {
@@ -65,6 +67,6 @@ var ContactForm = React.createClass({
             onChange: this.onDescriptionChange
         }), React.createElement('button', {
             type: 'submit'
-        }, 'Add Contact')));
+        }, 'Save')));
     }
 });
