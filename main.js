@@ -12,30 +12,8 @@ var CONTACT_TEMPLATE = {
 * Model
 */
 
-// The app's current state
-var state = {};
-
-// setting stage triggers rerendering
-function setState(changes) {
-    var component;
-    Object.assign(state, changes);
-    switch (state.location) {
-        case '#/contacts':
-            component = React.createElement(ContactView, Object.assign({}, state, {
-                handleContactChange: updateNewContact,
-                handleSaveContact: submitNewContact
-            }));
-            break;
-        default:
-            component = React.createElement('div', {}, React.createElement('h1', {}, 'Not Found'), React.createElement('a', {
-                href: '#/contacts'
-            }, 'Contacts'));
-    }
-    ReactDOM.render(component, document.getElementById('react-app'));
-}
-
-// Set initial data first time (implicit rendering)
-setState({
+// Set the app's initial state
+var state = {
     contacts: [
         {
             key: 1,
@@ -51,8 +29,16 @@ setState({
             name: 'Joe Jim'
         }
     ],
-    newContact: Object.assign({}, CONTACT_TEMPLATE)
-});
+    newContact: Object.assign({}, CONTACT_TEMPLATE),
+    location: window.location.hash
+};
+
+// setting stage triggers rerendering
+function setState(changes) {
+    Object.assign(state, changes);
+    var application = React.createElement(Application, { location: state.location });
+    ReactDOM.render(application, document.getElementById('react-app'));
+}
 
 window.addEventListener('hashchange', navigated, false);
 navigated();

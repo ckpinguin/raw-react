@@ -1,3 +1,5 @@
 function navigated() {
-    setState({location: window.location.hash});
+    setState({
+        location: window.location.hash.replace(/^#\/?|\/$/g, '').split('/')
+    });
 };
