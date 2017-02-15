@@ -1,6 +1,8 @@
 var Application = React.createClass({
     propTypes: {
-        location: React.PropTypes.array.isRequired
+        location: React.PropTypes.array.isRequired,
+        contacts: React.PropTypes.array.isRequired,
+        newContact: React.PropTypes.object.isRequired
     },
     render: function() {
         switch (this.props.location[0]) {
@@ -13,8 +15,8 @@ var Application = React.createClass({
                     }));
                 } else {
                     return React.createElement(ContactsView, Object.assign({}, this.props, {
-                        handleContactChange: updateNewContact,
-                        handleSaveContact: submitNewContact
+                        handleContactChange: updateNewContact, // use global handler
+                        handleSaveContact: submitContactForm // use global handler
                     }));
                 }
                 break;

@@ -15,7 +15,13 @@ function updateNewContact(contact) {
     setState({newContact: contact});
 }
 
-function submitNewContact() {
+function submitContactForm() {
+    saveNewContact();
+    // this fires an event which calls our function `navigated`
+    startNavigating('/contacts');
+}
+
+function saveNewContact() {
     var contact = Object.assign({}, state.newContact, { // filled only if the form component has submitted stuff
         key: state.contacts.length + 1, // incremented key analogue to array's idx
         errors: {}

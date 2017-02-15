@@ -33,11 +33,17 @@ var state = {
     location: window.location.hash
 };
 
-// setting stage triggers rerendering
+// setting state also triggers rerendering (normally this is done by React's
+// own setState implementation)
 function setState(changes) {
     Object.assign(state, changes);
-    var application = React.createElement(Application, { location: state.location });
-    ReactDOM.render(application, document.getElementById('react-app'));
+    var application = React.createElement(Application, {
+        contacts: state.contacts,
+        location: state.location,
+        newContact: state.newContact
+    });
+    if (!state.transitioning)
+        ReactDOM.render(application, document.getElementById('react-app'));
 }
 
 window.addEventListener('hashchange', navigated, false);

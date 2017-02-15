@@ -13,7 +13,7 @@ var ContactForm = React.createClass({
     onDescriptionChange: function(event) {
         this.props.onChange(Object.assign({}, this.props.value, {description: event.target.value}))
     },
-    onSubmit: function(event) {
+    onFormSubmit: function(event) {
         event.preventDefault();
         this.refs.name.focus();
         this.props.onSubmit(); // no arg needed
@@ -39,7 +39,7 @@ var ContactForm = React.createClass({
         var errors = this.props.value.errors || {};
         return (React.createElement('form', {
             className: 'ContactForm',
-            onSubmit: this.onSubmit,
+            onSubmit: this.onFormSubmit,
             noValidate: true // For development we want to validate on our own in the handler
         }, React.createElement('input', {
             className: errors.name && 'ContactForm-error',
