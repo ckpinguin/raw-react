@@ -10,6 +10,11 @@ function navigated() {
     }
 }
 
+/*
+*  Before actually navigating (via hashchange event callback `navigated`), set
+*  transittioning state, so a render function can suspend rendering while
+*  navigation is hopping (in `setState` that is)
+*/
 function startNavigating(newLocation) {
     setState({
         transitioning: true

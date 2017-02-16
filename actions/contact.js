@@ -106,8 +106,8 @@ function submitContactForm() {
             delete contactForms[key];
             // Now we put the updated contact (with key) into `update.contacts`
             // while taking the original contacts for the rest
-            update.contacts = state.contacts.slice(0).map(function (x) {
-                return x.key == key ? contact : x;
+            update.contacts = state.contacts.slice(0).map(function (c) {
+                return c.key == key ? contact : c;
             });
 
             startNavigating('/contacts');
