@@ -5,7 +5,8 @@ function navigated() {
         startNavigating('/contacts');
     } else {
         setState({
-            location: normalizedHash.split('/')
+            location: normalizedHash.split('/'),
+            transitioning: false
         });
     }
 }
@@ -15,16 +16,15 @@ function navigated() {
 *  transittioning state, so a render function can suspend rendering while
 *  navigation is hopping (in `setState` that is)
 */
-function startNavigating(newLocation) {
-    setState({
-        transitioning: true
-    });
+function startNavigating(newURI) {
+    var currentURI = window.location.hash.substr(1); // URI without the #
+
+    if (currentURI != newURI) {
+        setState({ transitioning: true });
+    }
     // this will fire a `hashchange` event which calls `navigated`, so setState
     // should only be called, when all intermediate routes are done
     window.location.replace(
-        window.location.pathname + window.location.search + '#' + newLocation
+        window.location.pathname + window.location.search + '#' + newURI
     );
-    setState({
-        transitioning: false
-    });
 }
